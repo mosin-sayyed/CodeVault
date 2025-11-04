@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CodeVault</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+     <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-code"></i>
+                    CodeVault
+                </a>
+                
+                <div class="nav-links">
+                    <a href="index.html#features">Features</a>
+                    <a href="index.html#how-it-works">How It Works</a>
+                    <a href="index.html#About">About</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-secondary">Sign In</a>
+                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Signup Section -->
+    <section class="signup-section">
+        <div class="container">
+            <div class="signup-container">
+                <div class="signup-content">
+                    <h1 class="signup-title">Join <span style="color: var(--primary);">CodeVault</span> Today</h1>
+                    <p class="signup-subtitle">Create your account and start organizing your code snippets across all programming languages.</p>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Store snippets in any programming language</li>
+                        <li><i class="fas fa-check-circle"></i> Powerful search and organization</li>
+                        <li><i class="fas fa-check-circle"></i> Syntax highlighting for better readability</li>
+                        <li><i class="fas fa-check-circle"></i> One-click copy functionality</li>
+                        <li><i class="fas fa-check-circle"></i> Secure and private by default</li>
+                    </ul>
+                </div>
+                
+                <div class="signup-form-container">
+                    <h2>Create Your Account</h2>
+                    <form id="signupForm">
+                        <!-- Username Field (matches user_id in database) -->
+                        <div class="form-group">
+                            <label for="username">Username *</label>
+                            <input type="text" id="username" name="username" required maxlength="50">
+                            <div class="error-message" id="usernameError">Username must be 3-50 characters and can only contain letters, numbers, and underscores</div>
+                        </div>
+                        
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required maxlength="100">
+                            <div class="error-message" id="emailError">Please enter a valid email address</div>
+                        </div>
+                        
+                        <!-- Password Field -->
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required>
+                            <div class="password-requirements">
+                                <div class="requirement unmet" id="lengthReq">
+                                    <i class="fas fa-circle"></i> At least 8 characters
+                                </div>
+                                <div class="requirement unmet" id="uppercaseReq">
+                                    <i class="fas fa-circle"></i> One uppercase letter
+                                </div>
+                                <div class="requirement unmet" id="lowercaseReq">
+                                    <i class="fas fa-circle"></i> One lowercase letter
+                                </div>
+                                <div class="requirement unmet" id="numberReq">
+                                    <i class="fas fa-circle"></i> One number
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Confirm Password Field -->
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                        </div>
+                        
+                        <!-- Terms Acceptance -->
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">
+                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> *
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn" id="submitBtn">Create Account</button>
+                        
+                        <div class="login-link">
+                            Already have an account? <a href="login.html">Sign in</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

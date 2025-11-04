@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeVault-Your personal Snippet Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-code"></i>
+                    CodeVault
+                </a>
+                
+                <div class="nav-links">
+                 <a href="#features">Features</a>
+                 <a href="#how-it-works">How It Works</a>
+                 <a href="#about">About</a>
+                  <a href="#contact">Contact</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-secondary">Sign In</a>
+                    <a href="signup.html" class="btn">Get Started</a>
+                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+     <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Organize Your Code Snippets with <span>CodeVault</span></h1>
+                    <p class="hero-description">
+                        Stop wasting time searching for code snippets. CodeVault helps developers store, organize, and quickly retrieve their reusable code with powerful search, syntax highlighting, and one-click copy.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="signup.html" class="btn">Start For Free</a>
+                        <a href="#" class="btn btn-secondary">Watch Demo</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-button red"></div>
+                            <div class="window-button yellow"></div>
+                            <div class="window-button green"></div>
+                            <div class="window-title">snippet.js</div>
+                        </div>
+                        <div class="window-content">
+                         <div class="code-line"><span class="comment">// Fetch user data from API</span></div>
+                         <div class="code-line"><span class="keyword">async function</span> <span class="function">fetchUserData</span>(userId) {</div>
+                         <div class="code-line">&nbsp;&nbsp;<span class="keyword">try</span> {</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`https://api.example.com/users/</span><span class="variable">${userId}</span><span class="string">`</span>);</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!response.<span class="property">ok</span>) {</div>
+                         <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">throw new</span> <span class="class-name">Error</span>(<span class="string">`HTTP error! status: </span><span class="variable">${response.status}</span><span class="string">`</span>);</div>
+                         <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">const</span> userData = <span class="keyword">await</span> response.<span class="function">json</span>();</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> userData;</div>
+                         <div class="code-line">&nbsp;&nbsp;} <span class="keyword">catch</span> (error) {</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">console</span>.<span class="function">error</span>(<span class="string">'Failed to fetch user:'</span>, error);</div>
+                        <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">null</span>;</div>
+                        <div class="code-line">&nbsp;&nbsp;}</div>
+                         <div class="code-line">}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <h2 class="section-title">Powerful <span>Features</span></h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Search</h3>
+                    <p class="feature-description">
+                        Find your snippets quickly with our powerful search that filters by title, tags, language, or content.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="feature-title">Syntax Highlighting</h3>
+                    <p class="feature-description">
+                        Code snippets are displayed with beautiful syntax highlighting for better readability across all major languages.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3 class="feature-title">Organize with Tags</h3>
+                    <p class="feature-description">
+                        Categorize your snippets with custom tags and filter by programming language for easy organization.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <h3 class="feature-title">One-Click Copy</h3>
+                    <p class="feature-description">
+                        Copy your code to clipboard with a single click. No more manual selecting and copying.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="feature-title">Favorites</h3>
+                    <p class="feature-description">
+                        Mark your most-used snippets as favorites for quick access in a dedicated section.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Secure & Private</h3>
+                    <p class="feature-description">
+                        Your code snippets are securely stored and private by default. Share only when you want to.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <!-- How It Works Section -->
+    <section class="section how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How <span>CodeVault</span> Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Sign Up</h3>
+                    <p class="step-description">
+                        Create your free account in less than a minute. No credit card required.
+                    </p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Add Snippets</h3>
+                    <p class="step-description">
+                        Save your code snippets with titles, descriptions, tags, and language information.
+                    </p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Organize & Search</h3>
+                    <p class="step-description">
+                        Use tags and categories to organize your snippets. Find what you need with powerful search.
+                    </p>
+                </div>
+                
+                <div class="step">
+                  <div class="step-number">4</div>
+                  <h3 class="step-title">Quick Access</h3>
+                    <p class="step-description">
+                       Copy code instantly and build your personal reference library for faster development.
+                         </p>
+                    </div>
+                  </div>
+    </section>
+
+    <!-- Minimal About Section -->
+<section class="section about" id="about">
+    <div class="container">
+        <h2 class="section-title">About <span>CodeVault</span></h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>Eliminate the time developers waste searching for code snippets and rewriting solutions to solved problems.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Built for Developers</h3>
+                <p>Created by developers who understand the pain of scattered code and the need for organized snippet management.</p>
+            </div>
+            
+            <div class="about-card">
+                <div class="about-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>The Vision</h3>
+                <p>To become the go-to solution for developers to store, organize, and instantly access their code knowledge.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2 class="cta-title">Ready to Organize Your Code?</h2>
+            <p class="cta-description">
+                Join thousands of developers who are saving time and boosting productivity with CodeVault.
+            </p>
+            <a href="signup.html" class="btn cta-button">Get Started For Free</a>
+        </div>
+    </section>
+
+     <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CodeVault</h3>
+                    <p>The ultimate code snippet manager for developers. Organize, search, and reuse your code efficiently.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Snippet Library</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 CodeVault. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
