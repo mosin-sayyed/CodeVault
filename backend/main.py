@@ -24,23 +24,30 @@ def get_db():
 def home():
     return {"message": "CodeVault API running"}
 
-# Register user route
+#
+# register function
 @app.post("/register", response_model=schemas.UserOut)
 def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    # check if username or email already exists
     existing = db.query(models.User).filter(
         (models.User.username == user.username) | (models.User.email == user.email)
     ).first()
     if existing:
         raise HTTPException(status_code=400, detail="Username or email already exists")
 
-    hashed_pw = pwd_context.hash(user.password)
+    # check if first user
+    user_count = db.query(models.User).count()
+    role = "admin" if user_count == 0 else "user"
+
+    password_str = user.password.strip()[:72]
+    hashed_pw = pwd_context.hash(password_str)
     new_user = models.User(
         username=user.username,
         email=user.email,
-        hashed_password=hashed_pw
+        hashed_password=hashed_pw,
+        role=role  # 👈 assign the role
     )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     return new_user
+
