@@ -14,6 +14,17 @@ from jose import JWTError, jwt
 
 app = FastAPI(title="CodeVault API")
 
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # during dev, allow all; later, restrict to your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 # Create tables if not already created
 models.Base.metadata.create_all(bind=engine)
 
