@@ -11,6 +11,7 @@ from auth import authenticate_user, create_access_token, get_current_user, get_d
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
+from fastapi import Depends
 
 app = FastAPI(title="CodeVault API")
 
@@ -106,3 +107,76 @@ def read_users_me(current_user=Depends(get_current_user)):
         "email": current_user.email,
         "role": current_user.role,
     }
+
+@app.get("/admin/data")
+def admin_data(
+    current_user=Depends(get_current_user)
+):
+    # Check role
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Admins only")
+
+    return {"message": "This is admin data"}
+
+
+
+# ------------------ ADMIN: GET ALL USERS ------------------
+@app.get("/admin/users")
+def get_all_users(current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+    # Only admin allowed
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Access Forbidden: Admin Only")
+
+    users = db.query(models.User).all()
+    return users
+
+
+# ------------------ ADMIN: DELETE A USER ------------------
+@app.delete("/admin/delete/{user_id}")
+def delete_user(user_id: int, current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access only!")
+
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Admin cannot delete himself
+    if user.id == current_user.id:
+        raise HTTPException(status_code=403, detail="You cannot delete yourself.")
+
+    db.delete(user)
+    db.commit()
+    return {"message": "User deleted successfully"}
+
+
+# ------------------ ADMIN: ADD A USER (OPTIONAL) ------------------
+@app.post("/admin/add")
+def admin_add_user(user: schemas.UserCreate, current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access only!")
+
+    # Check if exists
+    existing = db.query(models.User).filter(
+        (models.User.username == user.username) | (models.User.email == user.email)
+    ).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Username/Email already exists")
+
+    hashed_pw = pwd_context.hash(user.password.strip()[:72])
+
+    # new user is always normal user (role=user)
+    new_user = models.User(
+        username=user.username,
+        email=user.email,
+        hashed_password=hashed_pw,
+        role="user"
+    )
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"message": "User added successfully", "user": new_user}
