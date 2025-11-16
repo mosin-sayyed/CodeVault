@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - CodeVault</title>
+
+    <link rel="stylesheet" href="dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    /* ================================
+   GLOBAL STYLES
+================================ */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
+}
+
+/* ================================
+   NAVBAR (HEADER)
+================================ */
+.dashboard-header {
+    background: #6c63ff;
+    color: #fff;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.dashboard-logo {
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ================================
+   USER / ADMIN INFO AREA
+================================ */
+.dashboard-user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#adminName,
+#userName {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+}
+
+/* Logout Button */
+.logout-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #ff4757;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background: #e84141;
+}
+
+/* ================================
+   MAIN DASHBOARD CONTAINER
+================================ */
+.dashboard-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+    display: grid;
+    gap: 20px;
+}
+
+/* ================================
+   ADMIN & USER CARD STYLES
+================================ */
+.admin-card,
+.user-card {
+    background: #ffffff;
+    padding: 20px 25px;
+    border-radius: 14px;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.08);
+    border-left: 6px solid #6c63ff;
+    transition: 0.25s ease-in-out;
+}
+
+.admin-card:hover,
+.user-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.admin-card h2,
+.admin-card h3,
+.user-card h2,
+.user-card h3 {
+    margin-top: 0;
+    color: #6c63ff;
+}
+
+/* Paragraph */
+.admin-card p,
+.user-card p {
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Make the admin card full width */
+.full-width {
+    width: 100%;
+     margin-top: 20px;
+    
+}
+
+/* Table container for scroll + layout fix */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+/* Users Table */
+.user-table {
+    width: 100%;
+    min-width: 700px; /* ensures columns spread properly */
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Header */
+.user-table th {
+    background: #6c63ff;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Rows */
+.user-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+/* Zebra stripes */
+.user-table tr:nth-child(even) {
+    background: #f8f8ff;
+}
+
+/* Delete button */
+.delete-btn {
+    padding: 6px 12px;
+    background: #ff4757;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #e84141;
+}
+
+.no-action {
+    color: #888;
+    font-weight: bold;
+}
+
+
+/* 
+   RESPONSIVE DESIGN
+*/
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .dashboard-container {
+        padding: 10px;
+    }
+}
+
+</style>
+<body>
+    <!-- NAVBAR -->
+    <header class="dashboard-header">
+        <h1 class="dashboard-logo">🛡 CodeVault Admin Panel</h1>
+
+        <div class="dashboard-user-info">
+            <span id="adminName"></span>
+            <img id="adminAvatar" class="user-avatar" />
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+<div class="admin-card full-width">
+    <h2>👥 Manage Users</h2>
+
+    <div class="table-container">
+        <table class="user-table" id="usersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+    <script src="AdminDashboard.js"></script>
+</body>
+</html>

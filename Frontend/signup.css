@@ -326,3 +326,31 @@
                 padding: 2rem 1.5rem;
             }
         }
+.codevault-popup {
+  background: #0b0c10;
+  color: #f5f5f5;
+  border: 1px solid #1f2833;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+.codevault-title {
+  color: #66fcf1;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(102, 252, 241, 0.4);
+}
+.codevault-btn {
+  background: #45a29e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.codevault-btn:hover {
+  background: #66fcf1;
+  color: #0b0c10;
+}
+
+        

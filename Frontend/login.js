@@ -1,9 +1,9 @@
 // Initialize CodeVault SweetAlert Theme
 const codeVaultAlert = Swal.mixin({
   customClass: {
-    popup: 'codevault-popup',
-    title: 'codevault-title',
-    confirmButton: 'codevault-btn',
+    popup: "codevault-popup",
+    title: "codevault-title",
+    confirmButton: "codevault-btn",
   },
   buttonsStyling: false,
 });
@@ -24,7 +24,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   }
 
   try {
-    // Prepare data for login (FastAPI expects x-www-form-urlencoded)
+    // Prepare login data (FastAPI requires x-www-form-urlencoded)
     const formData = new URLSearchParams();
     formData.append("username", username);
     formData.append("password", password);
@@ -38,21 +38,28 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      // Store token locally (optional)
+      // Store login information
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("username", data.username);
       localStorage.setItem("role", data.role);
 
-      codeVaultAlert.fire({
-        icon: "success",
-        title: `Welcome Back, ${data.username}! 🎉`,
-        text: "Login successful. Redirecting to dashboard...",
-        timer: 2000,
-        showConfirmButton: false,
-      }).then(() => {
-        // Redirect to dashboard
-        window.location.href = "UserDashboard.html";
-      });
+      // Role-based redirect
+      let redirectPage =
+        data.role === "admin"
+          ? "AdminDashboard.html"
+          : "UserDashboard.html";
+
+      codeVaultAlert
+        .fire({
+          icon: "success",
+          title: `Welcome Back, ${data.username}! 🎉`,
+          text: "Login successful. Redirecting...",
+          timer: 2000,
+          showConfirmButton: false,
+        })
+        .then(() => {
+          window.location.href = redirectPage;
+        });
     } else {
       codeVaultAlert.fire({
         icon: "error",
