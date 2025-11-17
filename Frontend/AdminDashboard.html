@@ -48,8 +48,9 @@ body {
 .dashboard-user-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;   /* smaller spacing */
 }
+
 
 #adminName,
 #userName {
@@ -58,10 +59,14 @@ body {
 }
 
 .user-avatar {
-    width: 42px;
-    height: 42px;
+    width: 34px;      /* smaller */
+    height: 34px;     /* smaller */
     border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
 }
+
+
 
 /* Logout Button */
 .logout-btn {
@@ -212,8 +217,9 @@ body {
         <h1 class="dashboard-logo">🛡 CodeVault Admin Panel</h1>
 
         <div class="dashboard-user-info">
-            <span id="adminName"></span>
             <img id="adminAvatar" class="user-avatar" />
+            <span id="adminName"></span>
+
             <button id="logoutBtn" class="logout-btn">Logout</button>
         </div>
     </header>
