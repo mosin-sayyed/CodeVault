@@ -180,3 +180,127 @@ def admin_add_user(user: schemas.UserCreate, current_user=Depends(get_current_us
     db.commit()
     db.refresh(new_user)
     return {"message": "User added successfully", "user": new_user}
+
+
+
+
+# ============================================================
+#                   SNIPPET CRUD ROUTES
+# ============================================================
+
+# ------------------ ADD SNIPPET ------------------
+@app.post("/snippets/add", response_model=schemas.SnippetOut)
+def add_snippet(
+    snippet: schemas.SnippetCreate,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    new_snippet = models.Snippet(
+        user_id=current_user.id,
+        title=snippet.title,
+        language=snippet.language,
+        description=snippet.description,
+        code=snippet.code,
+        tags=snippet.tags,
+    )
+    db.add(new_snippet)
+    db.commit()
+    db.refresh(new_snippet)
+    return new_snippet
+
+
+# ------------------ GET ALL SNIPPETS OF CURRENT USER ------------------
+@app.get("/snippets/my", response_model=list[schemas.SnippetOut])
+def get_my_snippets(
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    snippets = db.query(models.Snippet).filter(
+        models.Snippet.user_id == current_user.id
+    ).order_by(models.Snippet.created_at.desc()).all()
+    return snippets
+
+
+# ------------------ GET SINGLE SNIPPET ------------------
+@app.get("/snippets/{snippet_id}", response_model=schemas.SnippetOut)
+def get_snippet(
+    snippet_id: int,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    snippet = db.query(models.Snippet).filter(
+        models.Snippet.id == snippet_id,
+        models.Snippet.user_id == current_user.id
+    ).first()
+
+    if not snippet:
+        raise HTTPException(status_code=404, detail="Snippet not found")
+
+    return snippet
+
+
+# ------------------ UPDATE SNIPPET ------------------
+@app.put("/snippets/update/{snippet_id}", response_model=schemas.SnippetOut)
+def update_snippet(
+    snippet_id: int,
+    snippet_data: schemas.SnippetUpdate,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    snippet = db.query(models.Snippet).filter(
+        models.Snippet.id == snippet_id,
+        models.Snippet.user_id == current_user.id
+    ).first()
+
+    if not snippet:
+        raise HTTPException(status_code=404, detail="Snippet not found")
+
+    for key, value in snippet_data.dict(exclude_unset=True).items():
+        setattr(snippet, key, value)
+
+    db.commit()
+    db.refresh(snippet)
+    return snippet
+
+
+# ------------------ DELETE SNIPPET ------------------
+@app.delete("/snippets/delete/{snippet_id}")
+def delete_snippet(
+    snippet_id: int,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    snippet = db.query(models.Snippet).filter(
+        models.Snippet.id == snippet_id,
+        models.Snippet.user_id == current_user.id
+    ).first()
+
+    if not snippet:
+        raise HTTPException(status_code=404, detail="Snippet not found")
+
+    db.delete(snippet)
+    db.commit()
+
+    return {"message": "Snippet deleted successfully"}
+
+
+# ------------------ TOGGLE FAVORITE ------------------
+@app.post("/snippets/favorite/{snippet_id}")
+def toggle_favorite(
+    snippet_id: int,
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    snippet = db.query(models.Snippet).filter(
+        models.Snippet.id == snippet_id,
+        models.Snippet.user_id == current_user.id
+    ).first()
+
+    if not snippet:
+        raise HTTPException(status_code=404, detail="Snippet not found")
+
+    snippet.is_favorite = not snippet.is_favorite
+    db.commit()
+    db.refresh(snippet)
+
+    return {"message": "Favorite toggled", "is_favorite": snippet.is_favorite}

@@ -543,6 +543,101 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
 
+/* MODAL STYLES */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: #1e293b;
+    padding: 20px;
+    width: 500px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: white;
+}
+.large-modal {
+    width: 70%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.snippet-info-box {
+    margin-bottom: 1rem;
+}
+
+.view-language {
+    background: var(--primary);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+#viewTags .tag {
+    margin-right: 5px;
+}
+
+.code-box {
+    background: #0f172a;
+    color: #cbd5e1;
+    padding: 1rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    max-height: 350px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.snippet-view-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 10px;
+}
+
+#editSnippetModal .modal-content {
+    width: 50%;
+}
+
+
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .dashboard-content {
@@ -687,7 +782,7 @@
                     </section>
 
                     <!-- Recent Snippets -->
-                    <section class="snippets-section">
+                    <section class="snippets-section"  id="recentSection">
                         <div class="section-header">
                             <h2 class="section-title">Recent Snippets</h2>
                             <a href="#all-snippets" class="btn btn-secondary">View All</a>
@@ -695,111 +790,159 @@
                         
                         <div class="snippets-grid" id="snippetsGrid">
                             <!-- Snippet Card 1 -->
-                            <div class="snippet-card">
-                                <div class="snippet-header">
-                                    <div>
-                                        <h3 class="snippet-title">Connect to MySQL DB</h3>
-                                        <span class="snippet-language">PHP</span>
-                                    </div>
-                                </div>
-                                <p class="snippet-description">PHP PDO connection to MySQL database with error handling</p>
-                                <div class="snippet-tags">
-                                    <span class="tag">#pdo</span>
-                                    <span class="tag">#database</span>
-                                    <span class="tag">#connection</span>
-                                </div>
-                                <div class="snippet-actions">
-                                    <button class="btn" onclick="copySnippet(1)">
-                                        <i class="fas fa-copy"></i> Copy
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="viewSnippet(1)">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="fav-btn" onclick="toggleFavorite(1, this)">☆</button>
-
-                                </div>
-                            </div>
-
-                            <!-- Snippet Card 2 -->
-                            <div class="snippet-card">
-                                <div class="snippet-header">
-                                    <div>
-                                        <h3 class="snippet-title">Fibonacci Sequence</h3>
-                                        <span class="snippet-language">Python</span>
-                                    </div>
-                                </div>
-                                <p class="snippet-description">Generator function for Fibonacci sequence with efficient memory usage</p>
-                                <div class="snippet-tags">
-                                    <span class="tag">#algorithm</span>
-                                    <span class="tag">#generator</span>
-                                    <span class="tag">#math</span>
-                                </div>
-                                <div class="snippet-actions">
-                                    <button class="btn" onclick="copySnippet(2)">
-                                        <i class="fas fa-copy"></i> Copy
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="viewSnippet(2)">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="fav-btn" onclick="toggleFavorite(1, this)">☆</button>
-                                </div>
-                            </div>
-
-                            <!-- Snippet Card 3 -->
-                            <div class="snippet-card">
-                                <div class="snippet-header">
-                                    <div>
-                                        <h3 class="snippet-title">API Fetch Helper</h3>
-                                        <span class="snippet-language">JavaScript</span>
-                                    </div>
-                                </div>
-                                <p class="snippet-description">Async function for making API requests with error handling</p>
-                                <div class="snippet-tags">
-                                    <span class="tag">#api</span>
-                                    <span class="tag">#fetch</span>
-                                    <span class="tag">#async</span>
-                                </div>
-                                <div class="snippet-actions">
-                                    <button class="btn" onclick="copySnippet(3)">
-                                        <i class="fas fa-copy"></i> Copy
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="viewSnippet(3)">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="fav-btn" onclick="toggleFavorite(1, this)">☆</button>
-                                </div>
-                            </div>
-
-                            <!-- Snippet Card 4 -->
-                            <div class="snippet-card">
-                                <div class="snippet-header">
-                                    <div>
-                                        <h3 class="snippet-title">CSS Grid Layout</h3>
-                                        <span class="snippet-language">CSS</span>
-                                    </div>
-                                </div>
-                                <p class="snippet-description">Responsive grid layout using CSS Grid with auto-fit columns</p>
-                                <div class="snippet-tags">
-                                    <span class="tag">#css</span>
-                                    <span class="tag">#grid</span>
-                                    <span class="tag">#responsive</span>
-                                </div>
-                                <div class="snippet-actions">
-                                    <button class="btn" onclick="copySnippet(4)">
-                                        <i class="fas fa-copy"></i> Copy
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="viewSnippet(4)">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
-                                    <button class="fav-btn" onclick="toggleFavorite(1, this)">☆</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </main>
-            </div>
+                       
         </div>
     </section>
+    <!-- FAVORITES SECTION -->
+<section class="snippets-section" id="favoritesSection" style="display:none;">
+    <div class="section-header">
+        <h2 class="section-title">Your Favorite Snippets</h2>
+    </div>
+
+    <div class="snippets-grid" id="favoritesGrid">
+        <!-- Favorites will load here dynamically -->
+    </div>
+</section>
+</section>
+
+
+
+
+<!-- ADD SNIPPET MODAL (paste below section, above script) -->
+<div class="modal" id="addSnippetModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add New Snippet</h2>
+            <button class="close-modal" id="closeModalBtn">&times;</button>
+        </div>
+
+        <div class="form-group">
+            <label>Title *</label>
+            <input type="text" id="snippetTitle" placeholder="Enter snippet title">
+        </div>
+
+        <div class="form-group">
+            <label>Language *</label>
+            <select id="snippetLanguage">
+                <option value="">Select a language</option>
+                <option>JavaScript</option>
+                <option>Python</option>
+                <option>PHP</option>
+                <option>C</option>
+                <option>C++</option>
+                <option>Java</option>
+                <option>CSS</option>
+                <option>HTML</option>
+                <option>SQL</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Description *</label>
+            <textarea id="snippetDescription" placeholder="Short description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Tags (comma separated)</label>
+            <input type="text" id="snippetTags" placeholder="example: api, fetch, async">
+        </div>
+
+        <div class="form-group">
+            <label>Code *</label>
+            <textarea id="snippetCode" placeholder="Write your code here..."></textarea>
+        </div>
+
+        <button class="btn btn-success" id="saveSnippetBtn">
+            <i class="fas fa-save"></i> Save Snippet
+        </button>
+    </div>
+</div>
+
+<!-- VIEW SNIPPET MODAL -->
+<div class="modal" id="viewSnippetModal">
+    <div class="modal-content large-modal">
+        <div class="modal-header">
+            <h2 id="viewTitle">Snippet Title</h2>
+            <button class="close-modal" onclick="closeViewModal()">&times;</button>
+        </div>
+
+        <div class="snippet-info-box">
+            <span class="view-language" id="viewLanguage"></span>
+            <p id="viewDescription"></p>
+            <div id="viewTags"></div>
+        </div>
+
+        <pre class="code-box">
+<code id="viewCode"></code>
+        </pre>
+
+        <div class="snippet-view-actions">
+            <button class="btn" onclick="copyToClipboard(document.getElementById('viewCode').textContent)">
+                <i class="fas fa-copy"></i> Copy
+            </button>
+
+            <button class="btn" id="editSnippetBtn">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+
+            <button class="btn btn-danger" id="deleteSnippetBtn">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT SNIPPET MODAL -->
+<div class="modal" id="editSnippetModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit Snippet</h2>
+            <button class="close-modal" onclick="closeEditModal()">&times;</button>
+        </div>
+
+        <input type="hidden" id="editSnippetId">
+
+        <div class="form-group">
+            <label>Title *</label>
+            <input type="text" id="editTitle">
+        </div>
+
+        <div class="form-group">
+            <label>Language *</label>
+            <select id="editLanguage">
+                <option>JavaScript</option>
+                <option>Python</option>
+                <option>PHP</option>
+                <option>C</option>
+                <option>C++</option>
+                <option>Java</option>
+                <option>CSS</option>
+                <option>HTML</option>
+                <option>SQL</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Description *</label>
+            <textarea id="editDescription"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Tags (comma separated)</label>
+            <input type="text" id="editTags">
+        </div>
+
+        <div class="form-group">
+            <label>Code *</label>
+            <textarea id="editCode"></textarea>
+        </div>
+
+        <button class="btn btn-success" onclick="saveEditedSnippet()">
+            <i class="fas fa-save"></i> Update Snippet
+        </button>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="UserDashboard.js"></script>
