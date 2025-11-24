@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Text, ForeignKey, func
 from sqlalchemy.orm import relationship
 from database import Base
+from datetime import datetime
+
 
 
 # ===========================
@@ -18,11 +20,10 @@ class User(Base):
 
     # Relationship: User → Snippets
     snippets = relationship("Snippet", back_populates="user", cascade="all, delete")
+    favorites = relationship("Favorite", back_populates="user", cascade="all, delete")
 
 
-# ===========================
-# SNIPPET MODEL
-# ===========================
+
 class Snippet(Base):
     __tablename__ = "snippets"
 
@@ -34,8 +35,22 @@ class Snippet(Base):
     description = Column(String(500), nullable=True)
     code = Column(Text, nullable=False)
     tags = Column(String(500), nullable=True)  # comma-separated tags
-    is_favorite = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationship back to User
     user = relationship("User", back_populates="snippets")
+    favorited_by = relationship("Favorite", back_populates="snippet", cascade="all, delete")
+
+
+
+
+
+class Favorite(Base):
+    __tablename__ = "favorites"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    snippet_id = Column(Integer, ForeignKey("snippets.id"))
+
+    user = relationship("User", back_populates="favorites")
+    snippet = relationship("Snippet", back_populates="favorited_by")
+

@@ -40,7 +40,7 @@ class SnippetOut(BaseModel):
     description: Optional[str]
     code: str
     tags: Optional[str]
-    is_favorite: bool
+    is_favorite: bool = False
     created_at: datetime
 
     class Config:

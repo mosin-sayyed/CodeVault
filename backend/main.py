@@ -183,7 +183,6 @@ def admin_add_user(user: schemas.UserCreate, current_user=Depends(get_current_us
 
 
 
-
 # ============================================================
 #                   SNIPPET CRUD ROUTES
 # ============================================================
@@ -206,7 +205,12 @@ def add_snippet(
     db.add(new_snippet)
     db.commit()
     db.refresh(new_snippet)
-    return new_snippet
+
+    # compute favorite (always false on creation)
+    return {
+        **new_snippet.__dict__,
+        "is_favorite": False
+    }
 
 
 # ------------------ GET ALL SNIPPETS OF CURRENT USER ------------------
@@ -218,7 +222,17 @@ def get_my_snippets(
     snippets = db.query(models.Snippet).filter(
         models.Snippet.user_id == current_user.id
     ).order_by(models.Snippet.created_at.desc()).all()
-    return snippets
+
+    results = []
+    for s in snippets:
+        is_fav = db.query(models.Favorite).filter_by(
+            user_id=current_user.id,
+            snippet_id=s.id
+        ).first() is not None
+
+        results.append({**s.__dict__, "is_favorite": is_fav})
+
+    return results
 
 
 # ------------------ GET SINGLE SNIPPET ------------------
@@ -228,15 +242,20 @@ def get_snippet(
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    snippet = db.query(models.Snippet).filter(
+    s = db.query(models.Snippet).filter(
         models.Snippet.id == snippet_id,
         models.Snippet.user_id == current_user.id
     ).first()
 
-    if not snippet:
+    if not s:
         raise HTTPException(status_code=404, detail="Snippet not found")
 
-    return snippet
+    is_fav = db.query(models.Favorite).filter_by(
+        user_id=current_user.id,
+        snippet_id=s.id
+    ).first() is not None
+
+    return {**s.__dict__, "is_favorite": is_fav}
 
 
 # ------------------ UPDATE SNIPPET ------------------
@@ -260,7 +279,13 @@ def update_snippet(
 
     db.commit()
     db.refresh(snippet)
-    return snippet
+
+    is_fav = db.query(models.Favorite).filter_by(
+        user_id=current_user.id,
+        snippet_id=snippet_id
+    ).first() is not None
+
+    return {**snippet.__dict__, "is_favorite": is_fav}
 
 
 # ------------------ DELETE SNIPPET ------------------
@@ -278,13 +303,16 @@ def delete_snippet(
     if not snippet:
         raise HTTPException(status_code=404, detail="Snippet not found")
 
+    # Also delete favorites linked to this snippet
+    db.query(models.Favorite).filter_by(snippet_id=snippet_id).delete()
+
     db.delete(snippet)
     db.commit()
 
     return {"message": "Snippet deleted successfully"}
 
 
-# ------------------ TOGGLE FAVORITE ------------------
+# ------------------ TOGGLE FAVORITE USING TABLE ------------------
 @app.post("/snippets/favorite/{snippet_id}")
 def toggle_favorite(
     snippet_id: int,
@@ -292,15 +320,26 @@ def toggle_favorite(
     db: Session = Depends(get_db)
 ):
     snippet = db.query(models.Snippet).filter(
-        models.Snippet.id == snippet_id,
-        models.Snippet.user_id == current_user.id
+        models.Snippet.id == snippet_id
     ).first()
 
     if not snippet:
         raise HTTPException(status_code=404, detail="Snippet not found")
 
-    snippet.is_favorite = not snippet.is_favorite
-    db.commit()
-    db.refresh(snippet)
+    fav = db.query(models.Favorite).filter_by(
+        user_id=current_user.id,
+        snippet_id=snippet_id
+    ).first()
 
-    return {"message": "Favorite toggled", "is_favorite": snippet.is_favorite}
+    if fav:
+        # Remove favorite
+        db.delete(fav)
+        db.commit()
+        return {"is_favorite": False}
+
+    # Add favorite
+    new_fav = models.Favorite(user_id=current_user.id, snippet_id=snippet_id)
+    db.add(new_fav)
+    db.commit()
+
+    return {"is_favorite": True}
