@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard - CodeVault</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         /* CSS Variables for consistent theming */
         :root {
@@ -29,6 +30,10 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
         }
 
         body {
@@ -435,31 +440,17 @@
             font-size: 0.8rem;
         }
         .fav-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: white; /* gold star */
-    transition: 0.2s;
-    margin-right: 8px;
-}
-
-.fav-btn:hover {
-    transform: scale(1.15);
-}
-
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: var(--gray);
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            transition: 0.2s;
+            margin-right: 8px;
         }
 
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+        .fav-btn:hover {
+            transform: scale(1.15);
         }
 
         /* Modal */
@@ -543,157 +534,1215 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
 
-/* MODAL STYLES */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
+        .large-modal {
+            width: 70%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
 
-.modal-content {
-    background: #1e293b;
-    padding: 20px;
-    width: 500px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: white;
-}
+        .snippet-info-box {
+            margin-bottom: 1rem;
+        }
 
-.modal-header {
+        .view-language {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        #viewTags .tag {
+            margin-right: 5px;
+        }
+
+        .code-box {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 1rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            max-height: 350px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .snippet-view-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 10px;
+        }
+
+
+        /* Enhanced Search Bar Styles */
+.search-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 300px;
+    transition: var(--transition);
+    position: relative;
 }
 
-.close-modal {
+.search-bar:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    transform: translateY(-1px);
+}
+
+.search-bar i {
+    color: var(--gray);
+    margin-right: 0.5rem;
+    transition: var(--transition);
+}
+
+.search-bar:focus-within i {
+    color: var(--primary);
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    color: var(--light);
+    width: 100%;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: var(--gray);
+    transition: var(--transition);
+}
+
+.search-bar:focus-within input::placeholder {
+    color: rgba(100, 116, 139, 0.6);
+}
+
+/* Search suggestions dropdown */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    margin-top: 0.5rem;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-suggestion-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-suggestion-item:hover {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+}
+
+.search-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.search-suggestion-item i {
+    font-size: 0.8rem;
+    color: var(--primary);
+}
+
+/* Clear search button */
+.clear-search {
     background: none;
     border: none;
-    font-size: 28px;
-    color: white;
+    color: var(--gray);
     cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: var(--transition);
+    display: none;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.clear-search:hover {
+    color: var(--light);
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #334155;
-    background: #0f172a;
-    color: white;
-}
-.large-modal {
-    width: 70%;
-    max-height: 90vh;
-    overflow-y: auto;
+/* Search results counter */
+.search-results-info {
+    font-size: 0.8rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+    display: none;
 }
 
-.snippet-info-box {
-    margin-bottom: 1rem;
+/* Loading animation for search */
+.search-loading {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 0.5rem;
 }
 
-.view-language {
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Quick search tags */
+.quick-search-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.quick-tag {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.quick-tag:hover {
     background: var(--primary);
     color: white;
-    padding: 5px 15px;
-    border-radius: 20px;
+    transform: translateY(-1px);
+}
+
+/* Fix select dropdown visibility */
+#languageFilter,
+#tagFilter,
+#sortSelect {
+    background-color: #1e1e1e !important;
+    color: white !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+/* Dropdown options styling */
+#languageFilter option,
+#tagFilter option,
+#sortSelect option {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+/* Hover effect inside dropdown (only works in some browsers) */
+#languageFilter option:hover,
+#tagFilter option:hover,
+#sortSelect option:hover {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
+
+/* Enhanced Filter Dropdown Styles */
+#languageFilter,
+#tagFilter,
+#sortSelect {
+    background-color: rgba(15, 23, 42, 0.9) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem;
+    min-width: 140px;
+}
+
+#languageFilter:hover,
+#tagFilter:hover,
+#sortSelect:hover {
+    border-color: var(--primary) !important;
+    background-color: rgba(15, 23, 42, 1) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#languageFilter:focus,
+#tagFilter:focus,
+#sortSelect:focus {
+    outline: none;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    background-color: rgba(15, 23, 42, 1) !important;
+}
+
+/* Dropdown options styling */
+#languageFilter option,
+#tagFilter option,
+#sortSelect option {
+    background-color: #1e293b;
+    color: white;
+    padding: 0.5rem;
     font-size: 0.9rem;
 }
 
-#viewTags .tag {
-    margin-right: 5px;
+#languageFilter option:hover,
+#tagFilter option:hover,
+#sortSelect option:hover {
+    background-color: var(--primary) !important;
+    color: white !important;
 }
 
-.code-box {
-    background: #0f172a;
-    color: #cbd5e1;
-    padding: 1rem;
-    border-radius: 10px;
-    overflow-x: auto;
-    max-height: 350px;
-    border: 1px solid rgba(255,255,255,0.1);
+#languageFilter option:checked,
+#tagFilter option:checked,
+#sortSelect option:checked {
+    background-color: var(--primary) !important;
+    color: white !important;
 }
 
-.snippet-view-actions {
-    margin-top: 1rem;
+/* Filter bar container enhancements */
+#mySnippetsFilterBar {
     display: flex;
-    gap: 10px;
+    gap: 0.75rem;
+    align-items: center;
+    margin-left: auto;
+    transition: all 0.3s ease;
 }
 
-#editSnippetModal .modal-content {
-    width: 50%;
+/* Clear filters button enhancement */
+#clearFiltersBtn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.8;
+}
+
+#clearFiltersBtn:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    border-color: var(--primary);
+    background-color: rgba(37, 99, 235, 0.1);
+}
+
+/* Search bar enhancement */
+#globalSearchInput {
+    transition: all 0.3s ease;
+}
+
+#globalSearchInput:focus {
+    transform: translateY(-1px);
+}
+
+/* Filter labels (if you want to add them) */
+.filter-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+/* Active filter state */
+#languageFilter.active,
+#tagFilter.active,
+#sortSelect.active {
+    border-color: var(--success) !important;
+    background-color: rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    #mySnippetsFilterBar {
+        flex-wrap: wrap;
+    }
+    
+    #languageFilter,
+    #tagFilter,
+    #sortSelect {
+        min-width: 120px;
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    #mySnippetsFilterBar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #languageFilter,
+    #tagFilter,
+    #sortSelect {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* Tags Grid Styles */
+.tags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.tag-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.tag-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.tag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.tag-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--light);
+    margin: 0;
+}
+
+.tag-count {
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.tag-snippets {
+    margin-top: 1rem;
+}
+
+.snippet-preview {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid var(--primary);
+}
+
+.snippet-preview:last-child {
+    margin-bottom: 0;
+}
+
+.snippet-preview-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.snippet-preview-language {
+    font-size: 0.8rem;
+    color: var(--gray);
+}
+
+.no-tags {
+    text-align: center;
+    padding: 3rem;
+    color: var(--gray);
+}
+
+.no-tags i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Light theme support */
+[data-theme="light"] .tag-card {
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .snippet-preview {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+
+/* Loading state for filters */
+.filter-loading {
+    position: relative;
+    opacity: 0.7;
+}
+
+.filter-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2.5rem;
+    width: 12px;
+    height: 12px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translateY(-50%);
+}
+
+/* Pulse animation for when filters are applied */
+@keyframes filterPulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+.filter-applied {
+    animation: filterPulse 1s ease;
+}
+
+/* Custom scrollbar for dropdowns */
+#languageFilter::-webkit-scrollbar,
+#tagFilter::-webkit-scrollbar,
+#sortSelect::-webkit-scrollbar {
+    width: 6px;
+}
+
+#languageFilter::-webkit-scrollbar-track,
+#tagFilter::-webkit-scrollbar-track,
+#sortSelect::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+#languageFilter::-webkit-scrollbar-thumb,
+#tagFilter::-webkit-scrollbar-thumb,
+#sortSelect::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 3px;
+}
+
+#languageFilter::-webkit-scrollbar-thumb:hover,
+#tagFilter::-webkit-scrollbar-thumb:hover,
+#sortSelect::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
 }
 
 
 
-        /* Responsive Design */
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background: var(--dark);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    left: 4px;
+}
+
+.theme-toggle.dark::before {
+    transform: translateX(30px);
+    background: linear-gradient(135deg, #94a3b8, #cbd5e1);
+}
+
+.theme-toggle i {
+    font-size: 14px;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.theme-toggle .sun {
+    color: #f59e0b;
+    margin-right: auto;
+}
+
+.theme-toggle .moon {
+    color: #cbd5e1;
+    margin-left: auto;
+}
+
+/* Light theme variables */
+[data-theme="light"] {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --secondary: #8b5cf6;
+    --dark: #f8fafc;
+    --darker: #e2e8f0;
+    --light: #1e293b;
+    --gray: #64748b;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+}
+
+[data-theme="light"] body {
+    background-color: var(--darker);
+    color: var(--light);
+}
+
+[data-theme="light"] .sidebar,
+[data-theme="light"] .snippets-section,
+[data-theme="light"] .snippet-card {
+    background-color: rgba(248, 250, 252, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .search-bar,
+[data-theme="light"] #languageFilter,
+[data-theme="light"] #tagFilter,
+[data-theme="light"] #sortSelect {
+    background-color: rgba(248, 250, 252, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--light) !important;
+}
+
+[data-theme="light"] .nav-links a,
+[data-theme="light"] .sidebar-menu a {
+    color: var(--light);
+}
+
+[data-theme="light"] .nav-links a:hover,
+[data-theme="light"] .sidebar-menu a:hover,
+[data-theme="light"] .nav-links a.active,
+[data-theme="light"] .sidebar-menu a.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--primary);
+}
+
+[data-theme="light"] .welcome-banner {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+[data-theme="light"] .code-box {
+    background: #1e293b;
+    color: #cbd5e1;
+}
+
+[data-theme="light"] .modal-content {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group textarea,
+[data-theme="light"] .form-group select {
+    background-color: rgba(226, 232, 240, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--light);
+}
+
+/* Theme toggle container */
+.theme-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: 1rem;
+}
+
+.theme-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+/* Header adjustments for theme toggle */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Light theme navbar styles */
+[data-theme="light"] header {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .logo {
+    color: #1e293b !important;
+}
+
+[data-theme="light"] .nav-links a {
+    color: #475569;
+}
+
+[data-theme="light"] .nav-links a:hover,
+[data-theme="light"] .nav-links a.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+[data-theme="light"] .search-bar {
+    background: rgba(241, 245, 249, 0.9) !important;
+    border: 1px solid #cbd5e1;
+}
+
+[data-theme="light"] .search-bar input {
+    color: #1e293b !important;
+}
+
+[data-theme="light"] .search-bar input::placeholder {
+    color: #64748b;
+}
+
+[data-theme="light"] .user-info .user-name {
+    color: #1e293b;
+}
+
+[data-theme="light"] .user-info .user-role {
+    color: #64748b;
+}
+
+[data-theme="light"] .btn-secondary {
+    background-color: #6b7280 !important;
+    border: 2px solid #6b7280 !important;
+    color: white !important;
+}
+
+[data-theme="light"] .btn-secondary:hover {
+    background-color: #4b5563 !important;
+    border-color: #4b5563 !important;
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+[data-theme="light"] .btn-warning {
+    background-color: #f59e0b !important;
+    border: 2px solid #f59e0b !important;
+    color: white !important;
+}
+
+[data-theme="light"] .btn-warning:hover {
+    background-color: #d97706 !important;
+    border-color: #d97706 !important;
+}
+
+[data-theme="light"] .btn-danger {
+    background-color: #ef4444 !important;
+    border: 2px solid #ef4444 !important;
+    color: white !important;
+}
+
+[data-theme="light"] .btn-danger:hover {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+}
+
+[data-theme="light"] .btn {
+    background-color: var(--primary) !important;
+    color: white !important;
+    border: 2px solid var(--primary) !important;
+}
+
+[data-theme="light"] .btn:hover {
+    background-color: var(--primary-dark) !important;
+    transform: translateY(-2px);
+}
+
+[data-theme="light"] .btn-success {
+    background-color: var(--success) !important;
+    border: 2px solid var(--success) !important;
+    color: white !important;
+}
+
+[data-theme="light"] .btn-success:hover {
+    background-color: #0da271 !important;
+    border-color: #0da271 !important;
+}
+
+[data-theme="light"] .fav-btn {
+    color: #6b7280 !important;
+    background: none;
+    border: none;
+}
+
+[data-theme="light"] .fav-btn:hover {
+    color: var(--warning) !important;
+    transform: scale(1.15);
+}
+
+/* Settings Styles */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.settings-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    transition: var(--transition);
+}
+
+.settings-card:hover {
+    border-color: var(--primary);
+}
+
+.settings-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--light);
+    font-size: 1.3rem;
+}
+
+.settings-card h3 i {
+    color: var(--primary);
+}
+
+/* Theme Options */
+.theme-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.theme-option {
+    cursor: pointer;
+}
+
+.theme-option input {
+    display: none;
+}
+
+.theme-preview {
+    padding: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.theme-option input:checked + .theme-preview {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.theme-preview:hover {
+    border-color: var(--primary);
+}
+
+.dark-theme {
+    background: var(--darker);
+    color: var(--light);
+}
+
+.light-theme {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.auto-theme {
+    background: linear-gradient(135deg, var(--darker) 50%, #f8fafc 50%);
+    color: var(--light);
+}
+
+/* Checkbox Styles */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.checkbox-label:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray);
+    border-radius: 4px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.checkbox-label input:checked + .checkmark {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.checkbox-label input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Danger Zone Styles */
+.danger-zone {
+    border: 2px solid var(--error) !important;
+    background: rgba(239, 68, 68, 0.05) !important;
+}
+
+.danger-zone h3 {
+    color: var(--error) !important;
+}
+
+.danger-zone h3 i {
+    color: var(--error) !important;
+}
+
+/* Light theme support */
+[data-theme="light"] .danger-zone {
+    border: 2px solid var(--error) !important;
+    background: rgba(239, 68, 68, 0.08) !important;
+}
+
+/* Light theme support */
+[data-theme="light"] .settings-card {
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .settings-card h3 {
+    color: #1e293b;
+}
+
+[data-theme="light"] .checkbox-label:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .light-theme {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+
+/* Help & Support Styles */
+.help-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.help-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.help-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.help-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.help-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--light);
+}
+
+.help-card p {
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+/* FAQ Styles */
+.faq-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--light);
+}
+
+.faq-section h3 i {
+    color: var(--primary);
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.faq-item {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.faq-question:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.faq-question span {
+    font-weight: 600;
+    color: var(--light);
+}
+
+.faq-question i {
+    color: var(--gray);
+    transition: var(--transition);
+}
+
+.faq-answer {
+    padding: 0 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: var(--transition);
+    color: var(--gray);
+}
+
+.faq-item.active .faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    max-height: 200px;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+/* Support Contact Styles */
+.support-contact h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--light);
+}
+
+.support-contact h3 i {
+    color: var(--primary);
+}
+
+.contact-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.contact-option {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: var(--transition);
+}
+
+.contact-option:hover {
+    border-color: var(--primary);
+}
+
+.contact-option i {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-top: 0.25rem;
+}
+
+.contact-option h4 {
+    margin-bottom: 0.5rem;
+    color: var(--light);
+}
+
+.contact-option p {
+    color: var(--light);
+    margin-bottom: 0.25rem;
+}
+
+.contact-option small {
+    color: var(--gray);
+    font-size: 0.8rem;
+}
+
+/* Light theme support */
+[data-theme="light"] .help-card,
+[data-theme="light"] .faq-item,
+[data-theme="light"] .contact-option {
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .help-card h3,
+[data-theme="light"] .faq-question span,
+[data-theme="light"] .contact-option h4,
+[data-theme="light"] .contact-option p {
+    color: #1e293b;
+}
+
+[data-theme="light"] .faq-question:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .help-card p,
+[data-theme="light"] .faq-answer,
+[data-theme="light"] .contact-option small {
+    color: #64748b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .help-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-option {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .faq-question {
+        padding: 1rem;
+    }
+    
+    .help-card {
+        padding: 1.5rem;
+    }
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .settings-card {
+        padding: 1.5rem;
+    }
+    
+    .theme-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .theme-label {
+        display: none;
+    }
+    
+    .theme-toggle-container {
+        margin-left: 0.5rem;
+    }
+}
+
+        /* Responsive */
         @media (max-width: 992px) {
-            .dashboard-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                position: static;
-                margin-bottom: 1rem;
-            }
-            
-            .welcome-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 1.5rem;
-            }
-            
-            .welcome-stats {
-                justify-content: center;
-            }
-
-            .nav-links {
-                display: none;
-            }
+            .dashboard-content { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-bottom: 1rem; }
+            .nav-links { display: none; }
         }
 
         @media (max-width: 768px) {
-            .user-info {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .snippets-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .search-bar {
-                min-width: 200px;
-            }
+            .user-info { display: none; }
+            .mobile-menu-btn { display: block; }
+            .snippets-grid { grid-template-columns: 1fr; }
+            .search-bar { min-width: 200px; }
         }
 
         @media (max-width: 480px) {
-            .welcome-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .search-bar {
-                min-width: 150px;
-            }
+            .welcome-stats { flex-direction: column; gap: 1rem; }
+            .search-bar { min-width: 150px; }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -703,21 +1752,22 @@
                     <i class="fas fa-code"></i>
                     CodeVault
                 </a>
-                
+
                 <div class="nav-links">
-                    <a href="#dashboard" class="active">Dashboard</a>
-                    <a href="#snippets">My Snippets</a>
-                    <a href="#favorites">Favorites</a>
-                    <a href="#tags">Tags</a>
-                    
-                    <!-- Search Bar -->
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search snippets by title, tag or language...">
-                    </div>
+                    <a href="#dashboard" class="nav-link active">Dashboard</a>
+                    <a href="#snippets" class="nav-link">My Snippets</a>
+                    <a href="#favorites" class="nav-link">Favorites</a>
+                    <a href="#tags" class="nav-link">Tags</a>
                 </div>
-                
+
                 <div class="nav-actions">
+                        <div class="theme-toggle-container">
+        <span class="theme-label">Theme</span>
+        <div class="theme-toggle" id="themeToggle">
+            <i class="fas fa-sun sun"></i>
+            <i class="fas fa-moon moon"></i>
+        </div>
+    </div>
                     <div class="user-menu" id="userMenu">
                         <div class="user-avatar" id="userAvatar">JD</div>
                         <div class="user-info">
@@ -727,7 +1777,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
-                
+
                 <button class="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -739,213 +1789,451 @@
     <section class="dashboard">
         <div class="container">
             <div class="dashboard-content">
+
                 <!-- Sidebar -->
                 <aside class="sidebar">
                     <ul class="sidebar-menu">
-                        <li><a href="#dashboard" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-                        <li><a href="#snippets"><i class="fas fa-code"></i> My Snippets</a></li>
-                        <li><a href="#favorites"><i class="fas fa-star"></i> Favorites</a></li>
-                        <li><a href="#tags"><i class="fas fa-tags"></i> Tags</a></li>
+                        <li><a href="#dashboard" class="side-link active"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="#snippets" class="side-link"><i class="fas fa-code"></i> My Snippets</a></li>
+                        <li><a href="#favorites" class="side-link"><i class="fas fa-star"></i> Favorites</a></li>
+                        <a href="#tags" class="side-link"><i class="fas fa-tags"></i> Tags</a></li>
                         <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
                         <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
                         <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </aside>
+<!-- Main Content -->
+<main class="main-content">
 
-                <!-- Main Content -->
-                <main class="main-content">
-                    <!-- Welcome Banner -->
-                    <section class="welcome-banner">
-                        <div class="welcome-content">
-                            <div class="welcome-text">
-                                <h1>Welcome back, <span id="welcomeName">John</span>! 👋</h1>
-                                <p>Ready to organize your code snippets and boost your productivity?</p>
-                                <div class="welcome-stats">
-                                    <div class="stat">
-                                        <div class="stat-value" id="snippetCount">24</div>
-                                        <div class="stat-label">Snippets</div>
-                                    </div>
-                                    <div class="stat">
-                                        <div class="stat-value" id="favoriteCount">8</div>
-                                        <div class="stat-label">Favorites</div>
-                                    </div>
-                                    <div class="stat">
-                                        <div class="stat-value" id="languageCount">5</div>
-                                        <div class="stat-label">Languages</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-success" id="addSnippetBtn">
-                                <i class="fas fa-plus"></i> Add New Snippet
-                            </button>
-                        </div>
-                    </section>
-
-                    <!-- Recent Snippets -->
-                    <section class="snippets-section"  id="recentSection">
-                        <div class="section-header">
-                            <h2 class="section-title">Recent Snippets</h2>
-                            <a href="#all-snippets" class="btn btn-secondary">View All</a>
-                        </div>
-                        
-                        <div class="snippets-grid" id="snippetsGrid">
-                            <!-- Snippet Card 1 -->
-                       
+    <!-- Welcome Banner -->
+    <section class="welcome-banner" id="dashboardSection">
+        <div class="welcome-content">
+            <div class="welcome-text">
+                <h1>Welcome back, <span id="welcomeName">John</span>! 👋</h1>
+                <p>Ready to organize your code snippets and boost your productivity?</p>
+                <div class="welcome-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="snippetCount">0</div>
+                        <div class="stat-label">Snippets</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="favoriteCount">0</div>
+                        <div class="stat-label">Favorites</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="languageCount">0</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success" id="addSnippetBtn">
+                <i class="fas fa-plus"></i> Add New Snippet
+            </button>
         </div>
     </section>
-    <!-- FAVORITES SECTION -->
-<section class="snippets-section" id="favoritesSection" style="display:none;">
+
+    <!-- Recent Snippets -->
+    <section class="snippets-section" id="recentSection">
+        <div class="section-header">
+            <h2 class="section-title">Recent Snippets</h2>
+            <a href="#all-snippets" class="btn btn-secondary">View All</a>
+        </div>
+
+        <div class="snippets-grid" id="snippetsGrid">
+            <!-- Snippet Card 1 -->
+        </div>
+    </section>
+    
+    <!-- MY SNIPPETS -->
+    <section id="mySnippetsSection" style="display:none;">
+      <div class="section-header">
+        <div style="display:flex;flex-direction:column;gap:0.5rem;width:100%;">
+          <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+            <h2 class="section-title" style="margin:0;">My Snippets</h2>
+
+            <!-- HORIZONTAL FILTER BAR -->
+            <div id="mySnippetsFilterBar" style="display:flex;gap:0.75rem;align-items:center;margin-left:auto;">
+              <div class="search-bar" style="min-width:360px;">
+                <i class="fas fa-search"></i>
+                <input id="globalSearchInput" type="search" placeholder="Search title, tag or language..." />
+              </div>
+
+              <select id="languageFilter" style="padding:.5rem;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--light);">
+                <option value="">All languages</option>
+              </select>
+
+              <select id="tagFilter" style="padding:.5rem;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--light);">
+                <option value="">All tags</option>
+              </select>
+
+              <select id="sortSelect" style="padding:.5rem;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--light);">
+                <option value="newest">Sort: Newest</option>
+                <option value="oldest">Sort: Oldest</option>
+                <option value="lang-az">Lang: A → Z</option>
+                <option value="lang-za">Lang: Z → A</option>
+                <option value="fav-first">Favorites first</option>
+              </select>
+
+              <button class="btn btn-secondary" id="clearFiltersBtn">Clear</button>
+            </div>
+            <!-- END FILTER BAR -->
+
+          </div>
+        </div>
+      </div>
+
+      <!-- SNIPPETS GRID: rendered by JS -->
+      <div id="mySnippetsGrid" class="snippets-grid"></div>
+    </section>
+
+    <!-- Favorites (hidden by default) -->
+    <section id="favoritesSection" class="snippets-section" style="display:none;">
+        <div class="section-header">
+            <h2 class="section-title">Your Favorite Snippets</h2>
+        </div>
+        <div class="snippets-grid" id="favoritesGrid"></div>
+    </section>
+
+    <!-- Tags Section -->
+    <section id="tagsSection" class="snippets-section" style="display:none;">
+        <div class="section-header">
+            <h2 class="section-title">Your Tags</h2>
+            <div>
+                <button class="btn btn-secondary" id="refreshTagsBtn">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <button class="btn btn-success" id="createTagBtn">
+                    <i class="fas fa-plus"></i> Create Tag
+                </button>
+            </div>
+        </div>
+
+        <!-- Tags Stats -->
+        <div class="tags-stats" style="display: flex; gap: 2rem; margin-bottom: 2rem; padding: 1rem; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+            <div class="stat">
+                <div class="stat-value" id="totalTags">0</div>
+                <div class="stat-label">Total Tags</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="mostUsedTag">-</div>
+                <div class="stat-label">Most Used</div>
+            </div>
+        </div>
+
+        <!-- Tags Search -->
+        <div class="search-bar" style="margin-bottom: 1.5rem; max-width: 400px;">
+            <i class="fas fa-search"></i>
+            <input type="text" id="tagsSearch" placeholder="Search tags...">
+        </div>
+
+        <!-- Tags Container -->
+        <div id="tagsContainer" class="tags-grid"></div>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="settingsSection" class="snippets-section" style="display:none;">
+        <div class="section-header">
+            <h2 class="section-title">Settings</h2>
+            <button class="btn btn-success" id="saveSettingsBtn">
+                <i class="fas fa-save"></i> Save Settings
+            </button>
+        </div>
+
+        <div class="settings-container">
+            <!-- Profile Settings -->
+            <div class="settings-card">
+                <h3><i class="fas fa-user"></i> Profile Settings</h3>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" id="displayName" placeholder="Enter your display name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="userEmail" placeholder="Enter your email">
+                </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="settings-card">
+                <h3><i class="fas fa-database"></i> Data Management</h3>
+                <div class="form-group">
+                    <button class="btn btn-secondary" id="exportDataBtn">
+                        <i class="fas fa-download"></i> Export My Data
+                    </button>
+                    <p style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">
+                        Download all your snippets as a JSON file
+                    </p>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="settings-card danger-zone">
+                <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                <div class="form-group">
+                    <button class="btn btn-danger" id="deleteAccountBtn">
+                        <i class="fas fa-trash"></i> Delete Account
+                    </button>
+                    <p style="font-size: 0.9rem; color: var(--error); margin-top: 0.5rem;">
+                        Permanently delete your account and all your data. This action cannot be undone.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!-- Help & Support Section -->
+<section id="helpSection" class="snippets-section" style="display:none;">
     <div class="section-header">
-        <h2 class="section-title">Your Favorite Snippets</h2>
+        <h2 class="section-title">Help & Support</h2>
     </div>
 
-    <div class="snippets-grid" id="favoritesGrid">
-        <!-- Favorites will load here dynamically -->
+    <div class="help-container">
+        <!-- Quick Help Cards -->
+        <div class="help-grid">
+            <div class="help-card" onclick="showHelpContent('getting-started')">
+                <div class="help-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Getting Started</h3>
+                <p>Learn how to use CodeVault effectively</p>
+            </div>
+
+            <div class="help-card" onclick="showHelpContent('snippets')">
+                <div class="help-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Managing Snippets</h3>
+                <p>Create, edit, and organize your code snippets</p>
+            </div>
+
+            <div class="help-card" onclick="showHelpContent('filters')">
+                <div class="help-icon">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <h3>Search & Filters</h3>
+                <p>Find your snippets quickly with advanced search</p>
+            </div>
+
+            <div class="help-card" onclick="showHelpContent('keyboard')">
+                <div class="help-icon">
+                    <i class="fas fa-keyboard"></i>
+                </div>
+                <h3>Keyboard Shortcuts</h3>
+                <p>Work faster with handy shortcuts</p>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h3><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I create a new snippet?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Click the "Add New Snippet" button on the dashboard. Fill in the title, select a language, add a description, tags, and your code. Then click "Save Snippet".
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I organize my snippets with tags?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! Add comma-separated tags when creating or editing a snippet. You can then filter your snippets by tags in the "My Snippets" section.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I mark a snippet as favorite?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Click the star icon (☆) on any snippet card to mark it as favorite. The star will turn solid (★) and the snippet will appear in your Favorites section.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I export my data?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! Go to Settings → Data Management and click "Export My Data" to download all your snippets as a JSON file.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Contact -->
+        <div class="support-contact">
+            <h3><i class="fas fa-life-ring"></i> Still Need Help?</h3>
+            <div class="contact-options">
+                <div class="contact-option">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email Support</h4>
+                        <p>support@codevault.com</p>
+                        <small>We typically respond within 24 hours</small>
+                    </div>
+                </div>
+                <div class="contact-option">
+                    <i class="fas fa-book"></i>
+                    <div>
+                        <h4>Documentation</h4>
+                        <p>Full user guide and API documentation</p>
+                        <small>Visit our comprehensive docs</small>
+                    </div>
+                </div>
+                <div class="contact-option">
+                    <i class="fab fa-github"></i>
+                    <div>
+                        <h4>GitHub Issues</h4>
+                        <p>Report bugs and suggest features</p>
+                        <small>Contribute to the project</small>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
-</section>
+</main>
+  
 
+    <!-- ADD SNIPPET MODAL -->
+    <div class="modal" id="addSnippetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Snippet</h2>
+                <button class="close-modal" id="closeModalBtn">&times;</button>
+            </div>
 
+            <div class="form-group">
+                <label>Title *</label>
+                <input type="text" id="snippetTitle" placeholder="Enter snippet title">
+            </div>
 
+            <div class="form-group">
+                <label>Language *</label>
+                <select id="snippetLanguage">
+                    <option value="">Select a language</option>
+                    <option>JavaScript</option>
+                    <option>Python</option>
+                    <option>PHP</option>
+                    <option>C</option>
+                    <option>C++</option>
+                    <option>Java</option>
+                    <option>CSS</option>
+                    <option>HTML</option>
+                    <option>SQL</option>
+                </select>
+            </div>
 
-<!-- ADD SNIPPET MODAL (paste below section, above script) -->
-<div class="modal" id="addSnippetModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Add New Snippet</h2>
-            <button class="close-modal" id="closeModalBtn">&times;</button>
-        </div>
+            <div class="form-group">
+                <label>Description *</label>
+                <textarea id="snippetDescription" placeholder="Short description"></textarea>
+            </div>
 
-        <div class="form-group">
-            <label>Title *</label>
-            <input type="text" id="snippetTitle" placeholder="Enter snippet title">
-        </div>
+            <div class="form-group">
+                <label>Tags (comma separated)</label>
+                <input type="text" id="snippetTags" placeholder="example: api, fetch, async">
+            </div>
 
-        <div class="form-group">
-            <label>Language *</label>
-            <select id="snippetLanguage">
-                <option value="">Select a language</option>
-                <option>JavaScript</option>
-                <option>Python</option>
-                <option>PHP</option>
-                <option>C</option>
-                <option>C++</option>
-                <option>Java</option>
-                <option>CSS</option>
-                <option>HTML</option>
-                <option>SQL</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>Code *</label>
+                <textarea id="snippetCode" placeholder="Write your code here..."></textarea>
+            </div>
 
-        <div class="form-group">
-            <label>Description *</label>
-            <textarea id="snippetDescription" placeholder="Short description"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Tags (comma separated)</label>
-            <input type="text" id="snippetTags" placeholder="example: api, fetch, async">
-        </div>
-
-        <div class="form-group">
-            <label>Code *</label>
-            <textarea id="snippetCode" placeholder="Write your code here..."></textarea>
-        </div>
-
-        <button class="btn btn-success" id="saveSnippetBtn">
-            <i class="fas fa-save"></i> Save Snippet
-        </button>
-    </div>
-</div>
-
-<!-- VIEW SNIPPET MODAL -->
-<div class="modal" id="viewSnippetModal">
-    <div class="modal-content large-modal">
-        <div class="modal-header">
-            <h2 id="viewTitle">Snippet Title</h2>
-            <button class="close-modal" onclick="closeViewModal()">&times;</button>
-        </div>
-
-        <div class="snippet-info-box">
-            <span class="view-language" id="viewLanguage"></span>
-            <p id="viewDescription"></p>
-            <div id="viewTags"></div>
-        </div>
-
-        <pre class="code-box">
-<code id="viewCode"></code>
-        </pre>
-
-        <div class="snippet-view-actions">
-            <button class="btn" onclick="copyToClipboard(document.getElementById('viewCode').textContent)">
-                <i class="fas fa-copy"></i> Copy
-            </button>
-
-            <button class="btn" id="editSnippetBtn">
-                <i class="fas fa-edit"></i> Edit
-            </button>
-
-            <button class="btn btn-danger" id="deleteSnippetBtn">
-                <i class="fas fa-trash"></i> Delete
+            <button class="btn btn-success" id="saveSnippetBtn">
+                <i class="fas fa-save"></i> Save Snippet
             </button>
         </div>
     </div>
-</div>
 
-<!-- EDIT SNIPPET MODAL -->
-<div class="modal" id="editSnippetModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Edit Snippet</h2>
-            <button class="close-modal" onclick="closeEditModal()">&times;</button>
+    <!-- VIEW SNIPPET MODAL -->
+    <div class="modal" id="viewSnippetModal">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h2 id="viewTitle">Snippet Title</h2>
+                <button class="close-modal" onclick="closeViewModal()">&times;</button>
+            </div>
+
+            <div class="snippet-info-box">
+                <span class="view-language" id="viewLanguage"></span>
+                <p id="viewDescription"></p>
+                <div id="viewTags"></div>
+            </div>
+
+            <pre class="code-box"><code id="viewCode"></code></pre>
+
+            <div class="snippet-view-actions">
+                <button class="btn" onclick="copyToClipboard(document.getElementById('viewCode').textContent)">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+
+                <button class="btn" id="editSnippetBtn"><i class="fas fa-edit"></i> Edit</button>
+
+                <button class="btn btn-danger" id="deleteSnippetBtn"><i class="fas fa-trash"></i> Delete</button>
+            </div>
         </div>
-
-        <input type="hidden" id="editSnippetId">
-
-        <div class="form-group">
-            <label>Title *</label>
-            <input type="text" id="editTitle">
-        </div>
-
-        <div class="form-group">
-            <label>Language *</label>
-            <select id="editLanguage">
-                <option>JavaScript</option>
-                <option>Python</option>
-                <option>PHP</option>
-                <option>C</option>
-                <option>C++</option>
-                <option>Java</option>
-                <option>CSS</option>
-                <option>HTML</option>
-                <option>SQL</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Description *</label>
-            <textarea id="editDescription"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Tags (comma separated)</label>
-            <input type="text" id="editTags">
-        </div>
-
-        <div class="form-group">
-            <label>Code *</label>
-            <textarea id="editCode"></textarea>
-        </div>
-
-        <button class="btn btn-success" onclick="saveEditedSnippet()">
-            <i class="fas fa-save"></i> Update Snippet
-        </button>
     </div>
-</div>
 
+    <!-- EDIT SNIPPET MODAL -->
+    <div class="modal" id="editSnippetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Snippet</h2>
+                <button class="close-modal" onclick="closeEditModal()">&times;</button>
+            </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="UserDashboard.js"></script>
+            <input type="hidden" id="editSnippetId">
 
+            <div class="form-group">
+                <label>Title *</label>
+                <input type="text" id="editTitle">
+            </div>
+
+            <div class="form-group">
+                <label>Language *</label>
+                <select id="editLanguage">
+                    <option>JavaScript</option>
+                    <option>Python</option>
+                    <option>PHP</option>
+                    <option>C</option>
+                    <option>C++</option>
+                    <option>Java</option>
+                    <option>CSS</option>
+                    <option>HTML</option>
+                    <option>SQL</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Description *</label>
+                <textarea id="editDescription"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Tags (comma separated)</label>
+                <input type="text" id="editTags">
+            </div>
+
+            <div class="form-group">
+                <label>Code *</label>
+                <textarea id="editCode"></textarea>
+            </div>
+
+            <button class="btn btn-success" onclick="saveEditedSnippet()">
+                <i class="fas fa-save"></i> Update Snippet
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="UserDashboard.js"></script>
 </body>
 </html>
