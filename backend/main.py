@@ -152,6 +152,49 @@ def delete_user(user_id: int, current_user=Depends(get_current_user), db: Sessio
     return {"message": "User deleted successfully"}
 
 
+# ------------------ ADMIN: GET ALL SNIPPETS ------------------
+@app.get("/admin/snippets")
+def get_all_snippets(
+    current_user=Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    # Only admin allowed
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Access Forbidden: Admin Only")
+
+    snippets = db.query(models.Snippet).all()
+    return snippets
+
+
+# ------------------ ADMIN: GET ALL SNIPPETS WITH FAVORITE INFO ------------------
+@app.get("/admin/snippets-with-favorites")
+def get_all_snippets_with_favorites(
+    current_user=Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    # Only admin allowed
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Access Forbidden: Admin Only")
+
+    snippets = db.query(models.Snippet).all()
+    
+    # Get all favorites to calculate counts
+    all_favorites = db.query(models.Favorite).all()
+    favorite_count_map = {}
+    
+    for fav in all_favorites:
+        favorite_count_map[fav.snippet_id] = favorite_count_map.get(fav.snippet_id, 0) + 1
+
+    results = []
+    for snippet in snippets:
+        results.append({
+            **snippet.__dict__,
+            "favorite_count": favorite_count_map.get(snippet.id, 0)
+        })
+    
+    return results
+
+
 # ------------------ ADMIN: ADD A USER (OPTIONAL) ------------------
 @app.post("/admin/add")
 def admin_add_user(user: schemas.UserCreate, current_user=Depends(get_current_user), db: Session = Depends(get_db)):
