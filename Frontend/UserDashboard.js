@@ -1,6 +1,4 @@
-/* UserDashboard.js - updated: adds horizontal filter bar (search, language, tag, sort)
-   Keep your existing functions; this file is a full replacement that preserves
-   previous behavior and adds the new My Snippets filtering workspace.
+/* UserDashboard.js -
 */
 
 /* ---------------------------
@@ -367,7 +365,7 @@ async function loadMySnippetsPage() {
   }
 }
 
-/* Keep your existing loadRecentSnippets / loadFavoritesPage implementations (they fetch fresh from backend) */
+/* Keep existing loadRecentSnippets / loadFavoritesPage implementations (they fetch fresh from backend) */
 async function loadRecentSnippets() {
   try {
     const res = await authFetch("http://127.0.0.1:8000/snippets/my");
@@ -427,20 +425,47 @@ function updateStatsFromList(snippets) {
 
 /* ---------------------------
    VIEW / EDIT / DELETE / FAVORITE
-   (keeps original behavior)
    --------------------------- */
 async function viewSnippet(id) {
   try {
     const res = await authFetch(`http://127.0.0.1:8000/snippets/${id}`);
     if (!res.ok) { Swal.fire("Error", "Unable to load snippet", "error"); return; }
     const s = await res.json();
+    
     document.getElementById("viewTitle").textContent = s.title || "";
     document.getElementById("viewLanguage").textContent = s.language || "";
     document.getElementById("viewDescription").textContent = s.description || "";
     document.getElementById("viewTags").innerHTML = s.tags ? s.tags.split(",").map(t=>`<span class="tag">#${t.trim()}</span>`).join("") : "";
-    document.getElementById("viewCode").textContent = s.code || "";
+    
+    // FIXED CODE FOR SYNTAX HIGHLIGHTING
+    const codeElement = document.getElementById("viewCode");
+    
+    // Clear previous classes and content
+    codeElement.className = '';
+    codeElement.textContent = s.code || "";
+    
+    // Set language class for syntax highlighting
+    const languageClass = getLanguageClass(s.language);
+    codeElement.className = languageClass;
+    
+    // Apply syntax highlighting - FORCE re-highlight
+    if (typeof hljs !== 'undefined') {
+        // Remove any existing highlight.js classes
+        codeElement.classList.remove('hljs');
+        
+        // Force re-highlight
+        hljs.highlightElement(codeElement);
+    }
+    
     const modal = document.getElementById("viewSnippetModal");
     if (modal) modal.style.display = "flex";
+    
+    // Update copy button
+    const copyBtn = document.getElementById("copyCodeBtn");
+    if (copyBtn) {
+        copyBtn.onclick = () => copyToClipboard(s.code || "");
+    }
+    
     const delBtn = document.getElementById("deleteSnippetBtn");
     if (delBtn) {
       delBtn.onclick = async () => {
@@ -459,6 +484,34 @@ async function viewSnippet(id) {
     console.error(err);
   }
 }
+
+// ADD THIS HELPER FUNCTION TO UserDashboard.js
+function getLanguageClass(language) {
+    const languageMap = {
+        'javascript': 'javascript',
+        'python': 'python',
+        'php': 'php',
+        'java': 'java',
+        'c': 'c',
+        'c++': 'cpp',
+        'html': 'html',
+        'css': 'css',
+        'sql': 'sql',
+        'json': 'json',
+        'xml': 'xml',
+        'bash': 'bash',
+        'shell': 'bash'
+    };
+    
+    const lang = (language || '').toLowerCase();
+    return languageMap[lang] || 'plaintext';
+}
+
+// Add this line to your global functions at the bottom of UserDashboard.js
+window.getLanguageClass = getLanguageClass;
+
+
+
 function closeViewModal() {
   const m = document.getElementById("viewSnippetModal");
   if (m) m.style.display = "none";
@@ -477,7 +530,7 @@ async function deleteSnippet(id) {
     }
     Swal.fire("Deleted", "Snippet deleted", "success");
     await Promise.all([fetchAndCacheSnippets(true), loadRecentSnippets(), loadFavoritesPage()]);
-    // reapply filters after deletion (keep current filter state)
+    // reapply filters after deletion 
     const searchText = document.getElementById("globalSearchInput") ? document.getElementById("globalSearchInput").value : "";
     const lang = document.getElementById("languageFilter") ? document.getElementById("languageFilter").value : "";
     const tag = document.getElementById("tagFilter") ? document.getElementById("tagFilter").value : "";
