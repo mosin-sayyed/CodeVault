@@ -3,11 +3,7 @@ from sqlalchemy.orm import relationship
 from database import Base
 from datetime import datetime
 
-
-
-# ===========================
 # USER MODEL
-# ===========================
 class User(Base):
     __tablename__ = "users"
 
@@ -18,12 +14,10 @@ class User(Base):
     role = Column(String(20), default="user")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationship: User → Snippets
     snippets = relationship("Snippet", back_populates="user", cascade="all, delete")
     favorites = relationship("Favorite", back_populates="user", cascade="all, delete")
 
-
-
+#snippet model
 class Snippet(Base):
     __tablename__ = "snippets"
 
@@ -34,7 +28,7 @@ class Snippet(Base):
     language = Column(String(50), nullable=False)
     description = Column(String(500), nullable=True)
     code = Column(Text, nullable=False)
-    tags = Column(String(500), nullable=True)  # comma-separated tags
+    tags = Column(String(500), nullable=True)  
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     user = relationship("User", back_populates="snippets")

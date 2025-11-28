@@ -1,4 +1,3 @@
-// Initialize CodeVault SweetAlert Theme
 const codeVaultAlert = Swal.mixin({
   customClass: {
     popup: "codevault-popup",
@@ -17,11 +16,10 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
   const confirmPassword = document.getElementById("confirmPassword").value.trim();
   const terms = document.getElementById("terms").checked;
 
-  // Basic validation before sending request
   if (!username || !email || !password || !confirmPassword) {
     return codeVaultAlert.fire({
       icon: "warning",
-      title: "Missing Fields ⚠️",
+      title: "Missing Fields ⚠️ ",
       text: "Please fill out all required fields.",
     });
   }

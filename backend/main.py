@@ -19,21 +19,16 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # during dev, allow all; later, restrict to your frontend domain
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-# Create tables if not already created
 models.Base.metadata.create_all(bind=engine)
-
-# Password hashing setup
+ 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-
-# Dependency: Get DB session
 def get_db():
     db = SessionLocal()
     try:
@@ -41,14 +36,10 @@ def get_db():
     finally:
         db.close()
 
-
-# ------------------ HOME ROUTE ------------------
 @app.get("/")
 def home():
     return {"message": "CodeVault API running"}
 
-
-# ------------------ REGISTER ROUTE ------------------
 @app.post("/register", response_model=schemas.UserOut)
 def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     existing = db.query(models.User).filter(
