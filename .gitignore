@@ -1,0 +1,17 @@
+# Virtual Environment
+venv/
+.venv/
+backend/venv/
+
+# Env files
+.env
+
+# Cache
+__pycache__/
+*.pyc
+
+# Database
+*.db
+
+# VS Code
+.vscode/
