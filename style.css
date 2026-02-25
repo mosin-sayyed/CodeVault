@@ -513,23 +513,52 @@ header{
         }
 
         @media (max-width: 768px) {
-            .nav-links, .nav-actions {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .cta-title {
-                font-size: 2rem;
-            }
-        }
+    /* Hide normal nav on mobile */
+    .nav-links, .nav-actions {
+        display: none;
+    }
+
+    /* Show hamburger button */
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    /* Mobile dropdown menu for links */
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        position: absolute;
+        top: 70px; /* adjust according to header height */
+        right: 20px;
+        background-color: rgba(15, 23, 42, 0.95);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        z-index: 1000;
+    }
+
+    /* Mobile dropdown menu for buttons */
+    .nav-actions.active {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        position: absolute;
+        top: calc(70px + 5rem); /* slightly below nav-links */
+        right: 20px;
+        background-color: rgba(15, 23, 42, 0.95);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        z-index: 1000;
+    }
+
+    /* Adjust text sizes */
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .cta-title {
+        font-size: 2rem;
+    }
+}

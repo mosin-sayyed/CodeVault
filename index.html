@@ -288,6 +288,15 @@
             </div>
         </div>
     </footer>
+<script>
+const menuBtn = document.querySelector('.mobile-menu-btn');
+const navLinks = document.querySelector('.nav-links');
+const navActions = document.querySelector('.nav-actions');
 
+menuBtn.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  navActions.classList.toggle('active');
+});
+</script>
 </body>
 </html>
