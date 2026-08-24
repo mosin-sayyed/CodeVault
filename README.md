@@ -22,3 +22,19 @@ CodeVault is a lightweight web app to store, organize, and reuse code snippets e
 ```bash
 git clone https://github.com/mosin-sayyed/CodeVault.git
 cd CodeVault
+
+### Create a Virtual Environment
+
+```bash
+python -m venv venv
+
+###Activate the Virtual Environment
+ venv\Scripts\activate
+
+###Install Dependencies
+pip install -r requirements.txt
+
+### Run The Application
+uvicorn backend.main:app --reload
+
+
